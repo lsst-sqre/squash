@@ -1,0 +1,50 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: squash-dash
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: squash-dash
+    spec:
+      containers:
+        - name: nginx
+          imagePullPolicy: "Always"
+          image: lsstsqre/squash-dash-nginx:{{ TAG }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ['/usr/sbin/nginx','-s','quit']
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: '/etc/nginx/conf.d'
+            - name: tls-certs
+              mountPath: '/etc/tls'
+        - name: dash
+          imagePullPolicy: "Always"
+          image: lsstsqre/squash-dash:{{ TAG }}
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+          - name: SQUASH_API_URL
+            value: squash-api
+          - name: SQUASH_BOKEH_URL
+            value: squash-bokeh
+            # on MINIKUBE we don't have an external IP, we use the minikube IP
+            # or the local hostname here
+          - name: ALLOWED_HOSTS
+            value: {{ SQUASH_DASH_HOST }},squash-bokeh,squash-api
+      volumes:
+        - name: tls-certs
+          secret:
+            secretName: tls-certs
+        - name: nginx-conf
+          configMap:
+            name: squash-dash-nginx-conf
+            items:
+              - key: 'nginx.conf'
+                path: 'nginx.conf'
+
