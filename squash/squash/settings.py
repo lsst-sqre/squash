@@ -100,6 +100,7 @@ STATICFILES_DIRS = (
 # The absolute path to the directory where collectstatic will collect static
 # files for deployment, static files are added to the dash-nginx container
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'kubernetes/nginx/static/')
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),
+                           'kubernetes/nginx/static/')
 
 STATIC_URL = '/static/'
