@@ -30,13 +30,13 @@ spec:
               containerPort: 8000
           env:
           - name: SQUASH_API_URL
-            value: squash-api
+            value: {{ SQUASH_API_URL }}
           - name: SQUASH_BOKEH_URL
-            value: squash-bokeh
+            value: {{ SQUASH_BOKEH_URL }}
             # on MINIKUBE we don't have an external IP, we use the minikube IP
             # or the local hostname here
           - name: ALLOWED_HOSTS
-            value: {{ SQUASH_DASH_HOST }},squash-bokeh,squash-api
+            value: {{ SQUASH_DASH_HOST }}, squash-bokeh,squash-api
       volumes:
         - name: tls-certs
           secret:
