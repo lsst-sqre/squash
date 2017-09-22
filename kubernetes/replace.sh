@@ -11,45 +11,46 @@ fi
 
 # values returned if the service is not ready
 HOST=""
-SQUASH_MINIKUBE_IP=""
-PORT=""
-SQUASH_API_PORT=""
-SQUASH_BOKEH_PORT=""
 
-# on minikube we don't have an external IP
-# configure the `minikube ip` to point to squash-local.lsst.codes in your /etc/hosts
-
-if [ "$MINIKUBE" == "true" ]; then
-    HOST=squash-local.lsst.codes
-    SQUASH_MINIKUBE_IP=$(minikube ip)
-    PORT=$(kubectl get services squash-dash -o jsonpath --template='{.spec.ports[0].nodePort}')
-    SQUASH_API_PORT=$(kubectl get services squash-api -o jsonpath --template='{.spec.ports[0].nodePort}')
-    SQUASH_BOKEH_PORT=$(kubectl get services squash-bokeh -o jsonpath --template='{.spec.ports[0].nodePort}')
-else
-    # on GKE
-    WAIT_TIME=5
-    while [ "$HOST" == "" ] && [ "$WAIT_TIME" -le 10 ]; do
-        echo "Waiting for the service to become available..."
-        sleep $(( WAIT_TIME++ ))
-        # TODO: we'll need the hostname once DNS is configured
-        HOST=$(kubectl get service squash-dash -o jsonpath --template='{.status.loadBalancer.ingress[0].ip}')
-    done
-    PORT=443
-fi
+# on GKE
+WAIT_TIME=5
+while [ "$HOST" == "" ] && [ "$WAIT_TIME" -le 20 ]; do
+    echo "Waiting for the service to become available..."
+    sleep $(( WAIT_TIME++ ))
+    HOST=$(kubectl get service squash-dash -o jsonpath --template='{.status.loadBalancer.ingress[0].ip}')
+done
 
 if [ "$HOST" == "" ]; then
     echo "Service is not ready..."
-    echo "If you are deploying to a minikube local cluster, make sure you set MINIKUBE=true."
     exit 1
 fi
 
+PORT=443
 echo "Service address: $HOST:$PORT"
+
+NAMESPACE=$(kubectl config current-context)
+
+SQUASH_DASH_HOST="squash-dash.${NAMESPACE}.lsst.codes"
+
+if [ "$NAMESPACE" == "squash-prod" ]; then
+    SQUASH_DASH_HOST="squash-dash.lsst.codes"
+fi
+
+SQUASH_API_URL="https://squash-api.${NAMESPACE}.lsst.codes"
+
+if [ "$NAMESPACE" == "squash-prod" ]; then
+    SQUASH_API_URL="https://squash-api.lsst.codes"
+fi
+
+SQUASH_BOKEH_URL="https://squash-bokeh.${NAMESPACE}.lsst.codes"
+
+if [ "$NAMESPACE" == "squash-prod" ]; then
+    SQUASH_BOKEH_URL="https://squash-bokeh.lsst.codes"
+fi
 
 sed -e "
 s/{{ TAG }}/${TAG}/
-s/{{ SQUASH_DASH_HOST }}/${HOST}/
-s/{{ SQUASH_MINIKUBE_IP }}/${SQUASH_MINIKUBE_IP}/
-s/{{ SQUASH_DASH_PORT }}/${PORT}/
-s|{{ SQUASH_API_URL }}|\"https://${HOST}:${SQUASH_API_PORT}\"|
-s|{{ SQUASH_BOKEH_URL }}|\"https://${HOST}:${SQUASH_BOKEH_PORT}\"|
+s/{{ SQUASH_DASH_HOST }}/${SQUASH_DASH_HOST}/
+s|{{ SQUASH_API_URL }}|\"${SQUASH_API_URL}\"|
+s|{{ SQUASH_BOKEH_URL }}|\"${SQUASH_BOKEH_URL}\"|
 " $1 > $2

@@ -16,25 +16,6 @@ You can provision a Kubernetes cluster in GKE, clone this repo and deploy the `s
 TAG=latest make deployment
 ```
 
-and get the external IP address for the service with:
-
-```
-kubectl get service squash-dash
-```
-
-NOTE: if using minikube make the deployment using:
-
-```
-MINIKUBE=true TAG=latest make deployment
-```
-
-the service address will be indicated during the deployment, example:
-
-```
-Creating deployment...
-Service address: squash-local.lsst.codes:32139
-```
-
 ### Debugging
 
 Use the `kubectl logs` command to view the logs of the `nginx` and `dash` containers:
@@ -49,7 +30,7 @@ to find the pod's name:
 
 
 ``` 
-kubectl exec <TAB> --stdin --tty -c dash /bin/sh
+kubectl exec -it <squash-dash pod> -c dash /bin/bash
 ```
 
 ### Rolling out updates 
@@ -63,6 +44,10 @@ kubectl rollout history deployment squash-dash
 Modify the `squash-dash` image and then apply the new configuration for the kubernetes deployment:
 
 ```
+# we need to setup the env for django to collect static files
+virtualenv env -p python3
+source env/bin/activate
+pip install -r requirements.txt
 TAG=latest make build push update
 ```
 

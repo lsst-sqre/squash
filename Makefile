@@ -1,7 +1,6 @@
 all:
 DASH = lsstsqre/squash-dash
 NGINX = lsstsqre/squash-dash-nginx
-NGINX_TEMPLATE = kubernetes/nginx/nginx-template.conf
 NGINX_CONFIG = kubernetes/nginx/nginx.conf
 DEPLOYMENT_TEMPLATE = kubernetes/deployment-template.yaml
 DEPLOYMENT_CONFIG = kubernetes/deployment.yaml
@@ -28,7 +27,6 @@ service:
 configmap:
 	@echo "Creating config map for the nginx configuration..."
 	kubectl delete --ignore-not-found=true configmap squash-dash-nginx-conf
-	@$(REPLACE) $(NGINX_TEMPLATE) $(NGINX_CONFIG)
 	kubectl create configmap squash-dash-nginx-conf --from-file=$(NGINX_CONFIG)
 
 deployment: check-tag service configmap

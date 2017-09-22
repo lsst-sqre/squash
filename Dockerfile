@@ -16,8 +16,7 @@ RUN chown -R uwsgi:uwsgi_grp /opt/squash
 USER uwsgi
 
 EXPOSE 8000
-# If running with minikube set a hostname with a proper domain name so that SSL works
-CMD if [ ! -z "$SQUASH_MINIKUBE_IP" ]; then echo "$SQUASH_MINIKUBE_IP squash-local.lsst.codes"; fi >> /etc/hosts; uwsgi uwsgi.ini
+CMD uwsgi uwsgi.ini
 
 
 
