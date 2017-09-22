@@ -1,4 +1,5 @@
 # Project specific files
+kubernetes/nginx/static/
 kubernetes/deployment.yaml
 
 # Byte-compiled / optimized / DLL files
