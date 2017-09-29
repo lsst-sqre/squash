@@ -1,0 +1,10 @@
+.git
+**/*.pyc
+**/*.pyd
+**/*.pyo
+**/__pycache__
+/__pycache__
+env/
+kubernetes/
+squash/static/
+Makefile

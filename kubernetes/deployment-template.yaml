@@ -1,0 +1,51 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: squash-dash
+  labels:
+    app: squash
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: squash
+        tier: dash
+    spec:
+      containers:
+        - name: nginx
+          imagePullPolicy: "Always"
+          image: lsstsqre/squash-dash-nginx:{{ TAG }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ['/usr/sbin/nginx','-s','quit']
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: '/etc/nginx/conf.d'
+            - name: tls-certs
+              mountPath: '/etc/tls'
+        - name: dash
+          imagePullPolicy: "Always"
+          image: lsstsqre/squash-dash:{{ TAG }}
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+          - name: SQUASH_API_URL
+            value: {{ SQUASH_API_URL }}
+          - name: SQUASH_BOKEH_URL
+            value: {{ SQUASH_BOKEH_URL }}
+          - name: ALLOWED_HOSTS
+            value: {{ SQUASH_DASH_HOST }}
+      volumes:
+        - name: tls-certs
+          secret:
+            secretName: tls-certs
+        - name: nginx-conf
+          configMap:
+            name: squash-dash-nginx-conf
+            items:
+              - key: 'nginx.conf'
+                path: 'nginx.conf'
+

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load cache %}
+{% block title %}{{ block.super }}{% endblock %}
+{% block content %}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>SQuaSH</h1>
+        <p>A service developed by LSST SQuaRE.</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Purpose</h2>
+            <p>SQuaSH provides a minimal infrastructure for
+                testing the LSST stack using precursor datasets.
+
+                It can be used and extended by LSST DM
+                to preserve the code and knowledge developed during LSST construction.
+            </p>
+            <br>
+            <h2>How to Use</h2>
+            <p>
+                Start by looking at Key Performance Metrics computed by
+                <a href="http://dmtn-008.lsst.io/en/latest/">validate_drp</a> and check the existing features.
+            </p>
+            <p>
+                <a class="btn btn-default"
+                   href="/dash/monitor" role="button">
+                    Go >>
+                </a>
+                <a class="btn btn-default"
+                   href="http://sqr-009.lsst.io/en/latest/" role="button">
+                    Learn more
+                </a>
+            </p>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <br>
+            <br>
+            <ul class="list-group">
+                <li class="list-group-item">Last CI job on
+                    <b>{{last}}</b> </li>
+                <li class="list-group-item"># of metrics monitored:
+                    <span class="badge">{{n_metrics}}</span></li>
+                <li class="list-group-item"># of LSST packages monitored:
+                    <span class="badge">{{n_packages}}</span></li>
+                <li class="list-group-item"># of CI jobs executed:
+                    <span class="badge">{{n_jobs}}</span></li>
+                <li class="list-group-item"># of measurements:
+                    <span class="badge">{{n_meas}}</span></li>
+                <li class="list-group-item">Supported datasets:
+                    <span class="badge">{{datasets}}</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

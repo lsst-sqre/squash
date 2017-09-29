@@ -1,0 +1,77 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0,
+    maximum-scale=1.0, user-scalable=0">
+    <title>LSST SQUASH</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/site.css' %}" rel="stylesheet">
+</head>
+<body>
+<!-- Collapsing navigation bar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/"><b>SQUASH</b></a>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar">
+            <!-- Make menu options visible for medium, small and extra small devices -->
+            <ul class="nav navbar-nav navbar-center">
+                <li><a href="/dash/monitor/"><i class="fa fa-area-chart">
+                </i> Monitor</a></li>
+                <!-- Dropdown menu to display metrics drill down plots -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-line-chart">
+                        </i> Apps <span class="caret"></span></a>
+                    <!--TODO: get the list of apps from the API -->
+                    <ul class="dropdown-menu">
+                        <li class="disabled"><a href="#">AD1</a></lii>
+                        <li class="disabled"><a href="#">AD2</a></lii>
+                        <li class="disabled"><a href="#">AF1</a></li>
+                        <li class="disabled"><a href="#">AF2</a></li>
+                        <li><a href="/dash/AMx/?metric=AM1">AM1</a></li>
+                        <li><a href="/dash/AMx/?metric=AM2">AM2</a></li>
+                        <li><a href="/dash/PAx/?metric=PA1">PA1</a></li>
+                        <li><a href="/dash/PAx/?metric=PA2">PA2</a></li>
+                        <li class="disabled"><a href="#">PA2</a></li>
+                    </ul>
+                </li>
+                <li><a href="/dash/reports/"><i class="fa fa-th">
+                </i> Reports</a></li>
+            </ul>
+            <!-- These menu items are always visible -->
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://github.com/lsst-sqre/squash-deployment"><i class="fa fa-github fa-lg"></i><b> GitHub</b></a></li>
+                <li><a href="https://squash-api.lsst.codes">API</a></li>
+                <li><a href="http://sqr-009.lsst.io/">Help</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Layout for main content -->
+{% block content %}
+{% endblock %}
+<footer>
+    <hr>
+    <div class="container" >
+        <p>&copy; Copyright {% now 'Y' %}, AURA/LSST</p>
+    </div>
+</footer>
+<!-- Keep at the end of the document so that pages load faster -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>
