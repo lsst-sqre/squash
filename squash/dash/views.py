@@ -2,10 +2,10 @@ import os
 import requests
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 
-from bokeh.embed import autoload_server
+from bokeh.embed import server_document
 
 # if not specified use the local url for development
 SQUASH_BOKEH_URL = os.environ.get('SQUASH_BOKEH_URL', 'http://localhost:5006')
@@ -25,13 +25,28 @@ def is_server_up(url):
 
 def embed_bokeh(request, bokeh_app):
     """Render the requested app from the bokeh server"""
-    # http://bokeh.pydata.org/en/0.12.6/docs/reference/embed.html
-    bokeh_script = "<h3>Error: Could not load SQUASH " \
-                   "<mark>{}</mark> app.</h3>".format(bokeh_app)
+
+    server_down_msg = "<h3>Error: Could not load SQUASH " \
+                      "<mark>{}</mark> app. Bokeh server is" \
+                      " down.</h3>".format(bokeh_app)
+
+    not_implemented_msg = "<h3>Could not load SQUASH " \
+                          "<mark>{}</mark>, this app is" \
+                          " not implemented.</h3>".format(bokeh_app)
+
+    # url args are passed to the bokeh document
+    args = request.GET.dict()
+
+    bokeh_script = server_down_msg
 
     if is_server_up(SQUASH_BOKEH_URL):
-        bokeh_script = autoload_server(None, app_path="/{}".format(bokeh_app),
-                                       url=SQUASH_BOKEH_URL)
+        bokeh_script = not_implemented_msg
+
+        if bokeh_app == 'monitor' or bokeh_app == 'AMx':
+            # https://bokeh.pydata.org/en/latest/docs/user_guide/embed.html#server-data
+            bokeh_script = server_document(url="{}/{}".format(SQUASH_BOKEH_URL,
+                                                              bokeh_app),
+                                           arguments=args)
 
     template = loader.get_template('dash/embed_bokeh.html')
 
@@ -41,12 +56,12 @@ def embed_bokeh(request, bokeh_app):
 
     response = HttpResponse(template.render(context, request))
 
-    # Save full url path in the HTTP response, so that the bokeh
-    # app can parse the parameters, e.g:
-    # http://localhost:8000/dash/AMx/?metric=AM1&ci_dataset=cfht&ci_id=452
-    response.set_cookie('squash_dash_full_path', request.get_full_path())
-
     return response
+
+
+def api(request):
+    """Render the API page"""
+    return HttpResponseRedirect(SQUASH_API_URL)
 
 
 def home(request):
