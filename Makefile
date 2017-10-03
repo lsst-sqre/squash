@@ -43,7 +43,6 @@ update: check-tag
 
 clean:
 	rm $(DEPLOYMENT_CONFIG)
-	rm $(NGINX_CONFIG)
 	rm -r $(STATIC)
 
 check-tag:

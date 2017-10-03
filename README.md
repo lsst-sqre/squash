@@ -79,7 +79,7 @@ kubectl get pods
 kubectl get replicasets
 ```
 
-## Development 
+## Development workflow 
 
 You can install the dependencies for developing
 
@@ -97,6 +97,9 @@ pip install -r requirements.txt
 2. Run the `squash-dash` 
 
 ```
+export SQUASH_BOKEH_URL=<suqash-bokeh url> # e.g. the one from squash-bokeh deployment
+export SQUASH_API_URL=<squash-api url>
+ 
 python manage.py runserver
 ```
 

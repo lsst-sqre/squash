@@ -7,6 +7,19 @@ body {
   padding-top: 50px;
 }
 
+div#content {
+    display: none;
+    }
+
+div#loading {
+    width: 50%;
+    margin: auto;
+    z-index: 1000;
+    width: 160px;
+    height: 24px;
+    background: url(img/loadingimage.gif) no-repeat;
+    cursor: wait;
+    }
 
 
 
