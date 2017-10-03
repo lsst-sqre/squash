@@ -12,6 +12,7 @@
     <!-- Custom styles for this template -->
     <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/site.css' %}" rel="stylesheet">
+
 </head>
 <body>
 <!-- Collapsing navigation bar -->
@@ -55,23 +56,18 @@
             <!-- These menu items are always visible -->
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="https://github.com/lsst-sqre/squash-deployment"><i class="fa fa-github fa-lg"></i><b> GitHub</b></a></li>
-                <li><a href="https://squash-api.lsst.codes">API</a></li>
+                <li><a href="/api">API</a></li>
                 <li><a href="http://sqr-009.lsst.io/">Help</a></li>
             </ul>
         </div>
     </div>
 </nav>
 <!-- Layout for main content -->
-{% block content %}
-{% endblock %}
-<footer>
-    <hr>
-    <div class="container" >
-        <p>&copy; Copyright {% now 'Y' %}, AURA/LSST</p>
-    </div>
-</footer>
+    {% block content %}
+    {% endblock %}
 <!-- Keep at the end of the document so that pages load faster -->
 <script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 </html>

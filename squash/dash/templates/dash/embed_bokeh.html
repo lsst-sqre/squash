@@ -2,9 +2,17 @@
 {% load cache %}
 
 {% block content %}
-
-<div class="container">
+<head>
+    <script type="text/javascript">
+        function preloader(){
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("content").style.display = "block";
+        }
+        window.onload = preloader;
+    </script>
+</head>
+<div id="loading"></div>
+<div id="content" class="container">
     {{bokeh_script|safe}}
 </div>
-
 {% endblock content %}
