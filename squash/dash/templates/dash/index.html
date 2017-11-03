@@ -42,17 +42,17 @@
             <br>
             <br>
             <ul class="list-group">
-                <li class="list-group-item">Last CI job on
-                    <b>{{last}}</b> </li>
+                <li class="list-group-item">Last CI job:
+                    <span class="badge">{{ latest_job_date }}</span> </li>
                 <li class="list-group-item"># of metrics monitored:
-                    <span class="badge">{{n_metrics}}</span></li>
+                    <span class="badge">{{number_of_metrics}}</span></li>
                 <li class="list-group-item"># of LSST packages monitored:
-                    <span class="badge">{{n_packages}}</span></li>
+                    <span class="badge">{{number_of_packages}}</span></li>
                 <li class="list-group-item"># of CI jobs executed:
-                    <span class="badge">{{n_jobs}}</span></li>
+                    <span class="badge">{{number_of_jobs}}</span></li>
                 <li class="list-group-item"># of measurements:
-                    <span class="badge">{{n_meas}}</span></li>
-                <li class="list-group-item">Supported datasets:
+                    <span class="badge">{{number_of_measurements}}</span></li>
+                <li class="list-group-item">Supported data sets:
                     <span class="badge">{{datasets}}</span></li>
             </ul>
         </div>

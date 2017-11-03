@@ -76,21 +76,14 @@ def home(request):
     """Render the initial page, including statistics"""
 
 
-    # TODO: get statistics from the SQUASH API
+    context = {"datasets": None, "latest_job_date": None,
+               "number_of_jobs": None, "number_of_packages": None,
+               "number_of_metrics": None, "number_of_measurements": None}
 
-    n_metrics = None
-    n_packages = None
-    n_jobs = None
-    n_meas = None
+    try:
+        context = requests.get("{}/stats".format(SQUASH_API_URL)).json()
+    except Exception:
+        print("Could not reach {}".format(SQUASH_API_URL))
 
-    datasets = None
-    last = None
-
-    context = {"n_metrics": n_metrics,
-               "n_packages": n_packages,
-               "n_jobs": n_jobs,
-               "n_meas": n_meas,
-               "datasets": datasets,
-               "last": last}
 
     return render(request, 'dash/index.html', context)
