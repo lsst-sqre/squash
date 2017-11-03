@@ -9,7 +9,8 @@ from bokeh.embed import server_document
 
 # if not specified use the local url for development
 SQUASH_BOKEH_URL = os.environ.get('SQUASH_BOKEH_URL', 'http://localhost:5006')
-SQUASH_API_URL = os.environ.get('SQUASH_API_URL', 'http://localhost:8000/api')
+SQUASH_API_URL = os.environ.get('SQUASH_API_URL', None)
+SQUASH_GRAPHQL_URL = os.environ.get('SQUASH_GRAPHQL_URL', None)
 
 
 def is_server_up(url):
@@ -51,8 +52,7 @@ def embed_bokeh(request, bokeh_app):
     template = loader.get_template('dash/embed_bokeh.html')
 
     context = {'bokeh_script': bokeh_script,
-               'bokeh_app': bokeh_app,
-               'squash_api_url': SQUASH_API_URL}
+               'bokeh_app': bokeh_app}
 
     response = HttpResponse(template.render(context, request))
 
@@ -63,9 +63,18 @@ def api(request):
     """Render the API page"""
     return HttpResponseRedirect(SQUASH_API_URL)
 
+def graphql(request):
+    """Redirect to the GraphQL service"""
+    return HttpResponseRedirect(SQUASH_GRAPHQL_URL)
+
+def admin(request):
+    """Redirect to the django admin interface"""
+    admin_url = "{}/admin/".format(SQUASH_API_URL)
+    return HttpResponseRedirect(admin_url)
 
 def home(request):
-    """Render the home page"""
+    """Render the initial page, including statistics"""
+
 
     # TODO: get statistics from the SQUASH API
 
