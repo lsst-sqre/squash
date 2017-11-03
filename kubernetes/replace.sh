@@ -36,6 +36,12 @@ if [ "$NAMESPACE" == "squash-prod" ]; then
     SQUASH_DASH_HOST="squash-dash.lsst.codes"
 fi
 
+SQUASH_GRAPHQL_URL="https://squash-graphql-${NAMESPACE}.lsst.codes"
+
+if [ "$NAMESPACE" == "squash-prod" ]; then
+    SQUASH_GRAPHQL_URL="https://squash-graphql.lsst.codes"
+fi
+
 SQUASH_API_URL="https://squash-api-${NAMESPACE}.lsst.codes"
 
 if [ "$NAMESPACE" == "squash-prod" ]; then
@@ -52,5 +58,6 @@ sed -e "
 s/{{ TAG }}/${TAG}/
 s/{{ SQUASH_DASH_HOST }}/${SQUASH_DASH_HOST}/
 s|{{ SQUASH_API_URL }}|\"${SQUASH_API_URL}\"|
+s|{{ SQUASH_GRAPHQL_URL }}|\"${SQUASH_GRAPHQL_URL}\"|
 s|{{ SQUASH_BOKEH_URL }}|\"${SQUASH_BOKEH_URL}\"|
 " $1 > $2
