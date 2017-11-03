@@ -19,6 +19,8 @@ from dash import views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^api$', views.api, name='api'),
+    url(r'^graphql$', views.graphql, name='graphql'),
+    url(r'^admin$', views.admin, name='admin'),
     url(r'^dash/(?P<bokeh_app>\w+)/$', views.embed_bokeh,
         name='embed-bokeh'),
     url(r'^dash/monitor/(?P<bokeh_app>\w+)/$', views.embed_bokeh,

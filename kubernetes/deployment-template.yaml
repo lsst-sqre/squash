@@ -34,6 +34,8 @@ spec:
           env:
           - name: SQUASH_API_URL
             value: {{ SQUASH_API_URL }}
+          - name: SQUASH_GRAPHQL_URL
+            value: {{ SQUASH_GRAPHQL_URL }}
           - name: SQUASH_BOKEH_URL
             value: {{ SQUASH_BOKEH_URL }}
           - name: ALLOWED_HOSTS
