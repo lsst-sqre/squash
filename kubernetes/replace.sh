@@ -33,7 +33,7 @@ NAMESPACE=$(kubectl config current-context)
 SQUASH_DASH_HOST="squash-dash-${NAMESPACE}.lsst.codes"
 
 if [ "$NAMESPACE" == "squash-prod" ]; then
-    SQUASH_DASH_HOST="squash-dash.lsst.codes"
+    SQUASH_DASH_HOST="squash.lsst.codes"
 fi
 
 SQUASH_GRAPHQL_URL="https://squash-graphql-${NAMESPACE}.lsst.codes"
