@@ -13,7 +13,8 @@ SQuaSH Dashboard microservice
 You can provision a Kubernetes cluster in GKE, clone this repo and deploy the `squash-dash` microservice using:
 
 ```
-TAG=latest make deployment
+cd squash-dash
+TAG=latest make service deployment
 ```
 
 ### Debugging

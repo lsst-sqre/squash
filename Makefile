@@ -29,7 +29,7 @@ configmap:
 	kubectl delete --ignore-not-found=true configmap squash-dash-nginx-conf
 	kubectl create configmap squash-dash-nginx-conf --from-file=$(NGINX_CONFIG)
 
-deployment: check-tag service configmap
+deployment: check-tag configmap
 	@echo "Creating deployment..."
 	@$(REPLACE) $(DEPLOYMENT_TEMPLATE) $(DEPLOYMENT_CONFIG)
 	kubectl delete --ignore-not-found=true deployment squash-dash
