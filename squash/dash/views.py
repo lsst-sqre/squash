@@ -9,7 +9,7 @@ from bokeh.embed import server_document
 
 # if not specified use the local url for development
 SQUASH_BOKEH_URL = os.environ.get('SQUASH_BOKEH_URL', 'http://localhost:5006')
-SQUASH_API_URL = os.environ.get('SQUASH_API_URL', None)
+SQUASH_API_URL = os.environ.get('SQUASH_API_URL', 'http://localhost:5000')
 SQUASH_GRAPHQL_URL = os.environ.get('SQUASH_GRAPHQL_URL', None)
 
 
@@ -28,8 +28,8 @@ def embed_bokeh(request, bokeh_app):
     """Render the requested app from the bokeh server"""
 
     server_down_msg = "<h3>Error: Could not load SQUASH " \
-                      "<mark>{}</mark> app. Bokeh server is" \
-                      " down.</h3>".format(bokeh_app)
+                      "<mark>{}</mark> app. Bokeh server is unreachable." \
+                      "</h3>".format(bokeh_app)
 
     not_implemented_msg = "<h3>Could not load SQUASH " \
                           "<mark>{}</mark>, this app is" \
