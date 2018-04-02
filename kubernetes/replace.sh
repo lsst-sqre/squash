@@ -17,7 +17,7 @@ WAIT_TIME=5
 while [ "$HOST" == "" ] && [ "$WAIT_TIME" -le 20 ]; do
     echo "Waiting for the service to become available..."
     sleep $(( WAIT_TIME++ ))
-    HOST=$(kubectl get service squash-dash -o jsonpath --template='{.status.loadBalancer.ingress[0].ip}')
+    HOST=$(kubectl get service squash -o jsonpath --template='{.status.loadBalancer.ingress[0].ip}')
 done
 
 if [ "$HOST" == "" ]; then
@@ -30,10 +30,10 @@ echo "Service address: $HOST:$PORT"
 
 NAMESPACE=$(kubectl config current-context)
 
-SQUASH_DASH_HOST="squash-dash-${NAMESPACE}.lsst.codes"
+SQUASH_HOST="squash-${NAMESPACE}.lsst.codes"
 
 if [ "$NAMESPACE" == "squash-prod" ]; then
-    SQUASH_DASH_HOST="squash.lsst.codes"
+    SQUASH_HOST="squash.lsst.codes"
 fi
 
 SQUASH_GRAPHQL_URL="https://squash-graphql-${NAMESPACE}.lsst.codes"
@@ -42,7 +42,7 @@ if [ "$NAMESPACE" == "squash-prod" ]; then
     SQUASH_GRAPHQL_URL="https://squash-graphql.lsst.codes"
 fi
 
-SQUASH_API_URL="https://squash-api-${NAMESPACE}.lsst.codes"
+SQUASH_API_URL="https://squash-restful-api-${NAMESPACE}.lsst.codes"
 
 if [ "$NAMESPACE" == "squash-prod" ]; then
     SQUASH_API_URL="https://squash-api.lsst.codes"
@@ -56,7 +56,7 @@ fi
 
 sed -e "
 s/{{ TAG }}/${TAG}/
-s/{{ SQUASH_DASH_HOST }}/${SQUASH_DASH_HOST}/
+s/{{ SQUASH_HOST }}/${SQUASH_HOST}/
 s|{{ SQUASH_API_URL }}|\"${SQUASH_API_URL}\"|
 s|{{ SQUASH_GRAPHQL_URL }}|\"${SQUASH_GRAPHQL_URL}\"|
 s|{{ SQUASH_BOKEH_URL }}|\"${SQUASH_BOKEH_URL}\"|
