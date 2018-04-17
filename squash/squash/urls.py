@@ -23,6 +23,5 @@ urlpatterns = [
     url(r'^admin$', views.admin, name='admin'),
     url(r'^dash/(?P<bokeh_app>\w+)/$', views.embed_bokeh,
         name='embed-bokeh'),
-    url(r'^dash/monitor/(?P<bokeh_app>\w+)/$', views.embed_bokeh,
-        name='embed-bokeh')
+
 ]

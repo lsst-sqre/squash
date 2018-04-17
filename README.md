@@ -97,6 +97,7 @@ pip install -r requirements.txt
 2. Run `squash` 
 
 ```
+export SQUASH_DASH_DEBUG=True
 export SQUASH_BOKEH_URL=<suqash-bokeh url> # e.g. the one from squash-bokeh deployment
 export SQUASH_API_URL=<squash-restful-api url> # e.g. the one from squash-restful-api deployment
  
