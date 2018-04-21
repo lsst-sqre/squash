@@ -45,7 +45,7 @@ fi
 SQUASH_API_URL="https://squash-restful-api-${NAMESPACE}.lsst.codes"
 
 if [ "$NAMESPACE" == "squash-prod" ]; then
-    SQUASH_API_URL="https://squash-api.lsst.codes"
+    SQUASH_API_URL="https://squash-restful-api.lsst.codes"
 fi
 
 SQUASH_BOKEH_URL="https://squash-bokeh-${NAMESPACE}.lsst.codes"

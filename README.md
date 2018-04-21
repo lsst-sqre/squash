@@ -1,11 +1,11 @@
 # squash
-SQuaSH web interface
-![SQuaSH web interface](squash-dash.png)
+
+squash is the web frontend to embed the bokeh apps and navigate through them. You can learn more about SQuaSH at `SQR-009 <https://sqr-009.lsst.io>`_.
 
 ## Requirements
 
-The `squash` web interface requires the [squash-restful-api](https://github.com/lsst-sqre/squash-restful-api) and [squash-bokeh](https://github.com/lsst-sqre/squash-bokeh) microservices, and the TLS secrets that are installed by the
-[`squash-deployment`](https://github.com/lsst-sqre/squash-deployment) tool.
+The `squash` web frontend requires the [squash-restful-api](https://github.com/lsst-sqre/squash-restful-api) and [squash-bokeh](https://github.com/lsst-sqre/squash-bokeh) microservices, and the TLS certificats that are installed by the
+[`squash-deployment`](https://github.com/lsst-sqre/squash-deployment).
 
 ## Kubernetes deployment
 
