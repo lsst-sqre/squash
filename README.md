@@ -1,6 +1,6 @@
 # squash
 
-squash is the web frontend to embed the bokeh apps and navigate through them. You can learn more about SQuaSH at `SQR-009 <https://sqr-009.lsst.io>`_.
+`squash` is the web frontend to embed the bokeh apps and navigate through them. You can learn more about SQuaSH at [SQR-009](https://sqr-009.lsst.io).
 
 ## Requirements
 
