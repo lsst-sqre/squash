@@ -6,7 +6,7 @@
 <div class="jumbotron">
     <div class="container">
         <h1>SQuaSH</h1>
-        <p>A QC service developed by LSST SQuaRE.</p>
+        <p>A QC service developed by LSST DM/SQuaRE.</p>
     </div>
 </div>
 
@@ -15,16 +15,15 @@
         <div class="col-md-6">
             <h2>Purpose</h2>
             <p>SQuaSH provides a minimal infrastructure for
-                monitoring the LSST stack using precursor datasets.
+                monitoring the LSST verification metrics.
 
-                It can be used and extended by LSST DM
+                It can be used and extended
                 to preserve the code and knowledge developed during LSST construction.
             </p>
             <br>
             <h2>How to Use</h2>
             <p>
-                Start by looking at Key Performance Metrics computed by
-                <a href="http://dmtn-008.lsst.io/en/latest/">validate_drp</a> and check the existing features.
+                Start by looking at the  <a href="http://sqr-019.lsst.io/"> LSST Verification Framework API demonstration</a> and check the existing features.
             </p>
             <p>
                 <a class="btn btn-default"
@@ -39,21 +38,17 @@
             </p>
         </div>
         <div class="col-md-6">
-            <br>
-            <br>
+            <h2>On this instace:</h2>
+
             <ul class="list-group">
-                <li class="list-group-item">Last CI job:
+                <li class="list-group-item">Last Verification Job:
                     <span class="badge">{{ latest_job_date }}</span> </li>
-                <li class="list-group-item"># of metrics monitored:
-                    <span class="badge">{{number_of_metrics}}</span></li>
-                <li class="list-group-item"># of LSST packages monitored:
+                <li class="list-group-item"># of verification packages:
                     <span class="badge">{{number_of_packages}}</span></li>
-                <li class="list-group-item"># of CI jobs executed:
-                    <span class="badge">{{number_of_jobs}}</span></li>
+                      <li class="list-group-item"># of metrics monitored:
+                    <span class="badge">{{number_of_metrics}}</span></li>
                 <li class="list-group-item"># of measurements:
                     <span class="badge">{{number_of_measurements}}</span></li>
-                <li class="list-group-item">Supported data sets:
-                    <span class="badge">{{datasets}}</span></li>
             </ul>
         </div>
     </div>
