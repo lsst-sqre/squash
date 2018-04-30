@@ -6,7 +6,7 @@
 <div class="jumbotron">
     <div class="container">
         <h1>SQuaSH</h1>
-        <p>A QC service developed by LSST DM/SQuaRE.</p>
+        <p>A QC service developed by LSST DM SQuaRE.</p>
     </div>
 </div>
 
@@ -27,7 +27,7 @@
             </p>
             <p>
                 <a class="btn btn-default"
-                   href="/dash/monitor" role="button">
+                   href="/dash/{{ monitor_app }}" role="button">
                     Go >>
                 </a>
                 <a class="btn btn-default"
@@ -38,16 +38,16 @@
             </p>
         </div>
         <div class="col-md-6">
-            <h2>On this instace:</h2>
+            <h2>On this instance:</h2>
 
             <ul class="list-group">
-                <li class="list-group-item">Last Verification Job:
-                    <span class="badge">{{ latest_job_date }}</span> </li>
-                <li class="list-group-item"># of verification packages:
-                    <span class="badge">{{number_of_packages}}</span></li>
-                      <li class="list-group-item"># of metrics monitored:
+                <li class="list-group-item">Last verification job:
+                    <span class="badge">{{last_job_date}}</span> </li>
+                <li class="list-group-item"># of verification jobs executed:
+                    <span class="badge">{{number_of_jobs}}</span></li>
+                <li class="list-group-item"># of metrics monitored:
                     <span class="badge">{{number_of_metrics}}</span></li>
-                <li class="list-group-item"># of measurements:
+                <li class="list-group-item"># of metric measurements stored:
                     <span class="badge">{{number_of_measurements}}</span></li>
             </ul>
         </div>

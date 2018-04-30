@@ -7,14 +7,19 @@ from django.template import loader
 
 from bokeh.embed import server_document
 
-# if not specified use the local url for development
+# default values are for local development
 SQUASH_BOKEH_URL = os.environ.get('SQUASH_BOKEH_URL', 'http://localhost:5006')
 SQUASH_API_URL = os.environ.get('SQUASH_API_URL', 'http://localhost:5000')
 SQUASH_GRAPHQL_URL = os.environ.get('SQUASH_GRAPHQL_URL', None)
 
+# list of allowed bokeh apps
+SQUASH_BOKEH_APPS = os.environ.get('SQUASH_BOKEH_APPS', "code_changes")
+# code_changes is the default monitor app
+SQUASH_MONITOR_APP = os.environ.get('SQUASH_MONITOR_APP', 'code_changes')
+
 
 def is_server_up(url):
-
+    """"""
     server_up = True
     try:
         requests.head(url)
@@ -43,7 +48,12 @@ def embed_bokeh(request, bokeh_app):
     if is_server_up(SQUASH_BOKEH_URL):
         bokeh_script = not_implemented_msg
 
-        if bokeh_app == 'monitor' or bokeh_app == 'AMx':
+        if " " in SQUASH_BOKEH_APPS:
+            bokeh_apps = SQUASH_BOKEH_APPS.split(" ")
+        else:
+            bokeh_apps = SQUASH_BOKEH_APPS
+
+        if bokeh_app in bokeh_apps:
             # https://bokeh.pydata.org/en/latest/docs/user_guide/embed.html#server-data
             bokeh_script = server_document(url="{}/{}".format(SQUASH_BOKEH_URL,
                                                               bokeh_app),
@@ -75,15 +85,15 @@ def admin(request):
 def home(request):
     """Render the initial page, including statistics"""
 
-
-    context = {"datasets": None, "latest_job_date": None,
-               "number_of_jobs": None, "number_of_packages": None,
-               "number_of_metrics": None, "number_of_measurements": None}
-
+    context = {"last_job_date": None,
+               "number_of_jobs": None,
+               "number_of_metrics": None,
+               "number_of_measurements": None}
     try:
-        context = requests.get("{}/stats".format(SQUASH_API_URL)).json()
+        context = requests.get("{}/stats".format(SQUASH_API_URL)).json()['stats']
     except Exception:
-        print("Could not reach {}".format(SQUASH_API_URL))
+        print("Could not reach {}/stats".format(SQUASH_API_URL))
 
+    context['monitor_app'] = SQUASH_MONITOR_APP
 
     return render(request, 'dash/index.html', context)
