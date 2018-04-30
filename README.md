@@ -16,6 +16,16 @@ cd squash
 TAG=latest make service deployment
 ```
 
+The variables `SQUASH_MONITOR_APP` and `SQUASH_BOKEH_APPS` can be used to control the bokeh apps allowed in this
+deployment, for example:
+
+```
+export SQUASH_MONITOR_APP=code_changes
+export SQUASH_BOKEH_APPS="code_changes AMx PAx"
+```
+
+their default values correspond to the production deployment.
+
 ### Debugging
 
 Use the `kubectl logs` command to view the logs of the `nginx` and `dash` containers:
