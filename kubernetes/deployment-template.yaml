@@ -40,6 +40,10 @@ spec:
             value: {{ SQUASH_BOKEH_URL }}
           - name: ALLOWED_HOSTS
             value: {{ SQUASH_HOST }}
+          - name: SQUASH_BOKEH_APPS 
+            value: {{ SQUASH_BOKEH_APPS }}
+          - name: SQUASH_MONITOR_APP
+            value: {{ SQUASH_MONITOR_APP }}
       volumes:
         - name: tls-certs
           secret:
