@@ -1,5 +1,6 @@
 import os
 import requests
+import urllib
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -13,7 +14,7 @@ SQUASH_API_URL = os.environ.get('SQUASH_API_URL', 'http://localhost:5000')
 SQUASH_GRAPHQL_URL = os.environ.get('SQUASH_GRAPHQL_URL', None)
 
 # list of allowed bokeh apps
-SQUASH_BOKEH_APPS = os.environ.get('SQUASH_BOKEH_APPS', "code_changes")
+SQUASH_BOKEH_APPS = os.environ.get('SQUASH_BOKEH_APPS', 'monitor code_changes AMx')
 # code_changes is the default monitor app
 SQUASH_MONITOR_APP = os.environ.get('SQUASH_MONITOR_APP', 'code_changes')
 
@@ -48,10 +49,7 @@ def embed_bokeh(request, bokeh_app):
     if is_server_up(SQUASH_BOKEH_URL):
         bokeh_script = not_implemented_msg
 
-        if " " in SQUASH_BOKEH_APPS:
-            bokeh_apps = SQUASH_BOKEH_APPS.split(" ")
-        else:
-            bokeh_apps = SQUASH_BOKEH_APPS
+        bokeh_apps = SQUASH_BOKEH_APPS.split(" ")
 
         if bokeh_app in bokeh_apps:
             # https://bokeh.pydata.org/en/latest/docs/user_guide/embed.html#server-data
@@ -62,7 +60,8 @@ def embed_bokeh(request, bokeh_app):
     template = loader.get_template('dash/embed_bokeh.html')
 
     context = {'bokeh_script': bokeh_script,
-               'bokeh_app': bokeh_app}
+               'bokeh_app': bokeh_app,
+               'monitor_app': SQUASH_MONITOR_APP}
 
     response = HttpResponse(template.render(context, request))
 
@@ -71,16 +70,12 @@ def embed_bokeh(request, bokeh_app):
 
 def api(request):
     """Render the API page"""
-    return HttpResponseRedirect(SQUASH_API_URL)
+    url = urllib.parse.urljoin(SQUASH_API_URL, "/apidocs")
+    return HttpResponseRedirect(url)
 
 def graphql(request):
     """Redirect to the GraphQL service"""
     return HttpResponseRedirect(SQUASH_GRAPHQL_URL)
-
-def admin(request):
-    """Redirect to the django admin interface"""
-    admin_url = "{}/admin/".format(SQUASH_API_URL)
-    return HttpResponseRedirect(admin_url)
 
 def home(request):
     """Render the initial page, including statistics"""

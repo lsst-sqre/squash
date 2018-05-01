@@ -54,10 +54,20 @@ if [ "$NAMESPACE" == "squash-prod" ]; then
     SQUASH_BOKEH_URL="https://squash-bokeh.lsst.codes"
 fi
 
+if [ -z "$SQUASH_BOKEH_APPS" ]; then
+    SQUASH_BOKEH_APPS="monitor code_changes AMx"
+fi
+
+if [ -z "$SQUASH_MONITOR_APP" ]; then
+    SQUASH_MONITOR_APP="code_changes"
+fi
+
 sed -e "
 s/{{ TAG }}/${TAG}/
 s/{{ SQUASH_HOST }}/${SQUASH_HOST}/
 s|{{ SQUASH_API_URL }}|\"${SQUASH_API_URL}\"|
 s|{{ SQUASH_GRAPHQL_URL }}|\"${SQUASH_GRAPHQL_URL}\"|
 s|{{ SQUASH_BOKEH_URL }}|\"${SQUASH_BOKEH_URL}\"|
+s|{{ SQUASH_BOKEH_APPS }}|\"${SQUASH_BOKEH_APPS}\"|
+s|{{ SQUASH_MONITOR_APP }}|\"${SQUASH_MONITOR_APP}\"|
 " $1 > $2
