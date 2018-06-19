@@ -48,3 +48,6 @@ clean:
 check-tag:
 	@if test -z ${TAG}; then echo "Error: TAG is undefined."; exit 1; fi
 
+.PHONY: docs
+docs:
+	make -C docs html
