@@ -14,7 +14,8 @@ SQUASH_API_URL = os.environ.get('SQUASH_API_URL', 'http://localhost:5000')
 SQUASH_GRAPHQL_URL = os.environ.get('SQUASH_GRAPHQL_URL', None)
 
 # list of allowed bokeh apps
-SQUASH_BOKEH_APPS = os.environ.get('SQUASH_BOKEH_APPS', 'monitor code_changes AMx')
+SQUASH_BOKEH_APPS = os.environ.get('SQUASH_BOKEH_APPS',
+                                   'monitor code_changes AMx')
 # code_changes is the default monitor app
 SQUASH_MONITOR_APP = os.environ.get('SQUASH_MONITOR_APP', 'code_changes')
 
@@ -24,7 +25,7 @@ def is_server_up(url):
     server_up = True
     try:
         requests.head(url)
-    except:
+    except Exception:
         server_up = False
 
     return server_up
@@ -73,9 +74,11 @@ def api(request):
     url = urllib.parse.urljoin(SQUASH_API_URL, "/apidocs")
     return HttpResponseRedirect(url)
 
+
 def graphql(request):
     """Redirect to the GraphQL service"""
     return HttpResponseRedirect(SQUASH_GRAPHQL_URL)
+
 
 def home(request):
     """Render the initial page, including statistics"""
@@ -85,7 +88,8 @@ def home(request):
                "number_of_metrics": None,
                "number_of_measurements": None}
     try:
-        context = requests.get("{}/stats".format(SQUASH_API_URL)).json()['stats']
+        context = requests.get("{}/stats".format(SQUASH_API_URL))\
+            .json()['stats']
     except Exception:
         print("Could not reach {}/stats".format(SQUASH_API_URL))
 
