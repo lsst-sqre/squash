@@ -110,6 +110,13 @@ pip install -r requirements.txt
 export SQUASH_DASH_DEBUG=True
 export SQUASH_BOKEH_URL=<suqash-bokeh url> # e.g. the one from squash-bokeh deployment
 export SQUASH_API_URL=<squash-restful-api url> # e.g. the one from squash-restful-api deployment
+```
+The variables `SQUASH_MONITOR_APP` and `SQUASH_BOKEH_APPS` can be used to control the bokeh apps allowed in this
+deployment, for example:
+
+```
+export SQUASH_MONITOR_APP=code_changes
+export SQUASH_BOKEH_APPS="code_changes AMx PAx"
  
 python manage.py runserver
 ```
