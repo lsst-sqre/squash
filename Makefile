@@ -1,6 +1,6 @@
 all:
-DASH = lsstsqre/squash
-NGINX = lsstsqre/squash-nginx
+DASH_IMAGE = lsstsqre/squash
+NGINX_IMAGE = lsstsqre/squash-nginx
 NGINX_CONFIG = kubernetes/nginx/nginx.conf
 DEPLOYMENT_TEMPLATE = kubernetes/deployment-template.yaml
 DEPLOYMENT_CONFIG = kubernetes/deployment.yaml
@@ -11,13 +11,21 @@ REPLACE = ./kubernetes/replace.sh
 $(STATIC):
 	cd squash; python manage.py collectstatic
 
+travis-build: $(STATIC)
+	docker build -t $(DASH_IMAGE):build .
+	docker build -t $(NGINX_IMAGE):build kubernetes/nginx
+
+travis-docker-deploy:
+	./bin/travis-docker-deploy.sh $(DASH_IMAGE) build
+	./bin/travis-docker-deploy.sh $(NGINX_IMAGE) build
+
 build: check-tag $(STATIC)
-	docker build -t $(DASH):${TAG} .
-	docker build -t $(NGINX):${TAG} kubernetes/nginx
+	docker build -t $(DASH_IMAGE):${TAG} .
+	docker build -t $(NGINX_IMAGE):${TAG} kubernetes/nginx
 
 push: check-tag
-	docker push $(DASH):${TAG}
-	docker push $(NGINX):${TAG}
+	docker push $(DASH_IMAGE):${TAG}
+	docker push $(NGINX_IMAGE):${TAG}
 
 service:
 	@echo "Creating service..."
