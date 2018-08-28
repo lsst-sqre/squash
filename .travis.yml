@@ -1,21 +1,26 @@
-sudo: false
+sudo: true
 language: python
 matrix:
   include:
-    - python: '3.6'
-      install:
-      - pip install flake8
-      - pip install -r docs/requirements.txt
-      - pip install ltd-conveyor
-      script:
-      - flake8
-      - make docs
-      after_success:
-      - 'ltd --log-level info upload --product "squash" --travis --dir docs/_build/html'
-      env: LTD_SKIP_UPLOAD=false
+    - env: DEPLOY_DOCKER_IMAGE=true
+      python: "3.6"
+services:
+  - docker
+install:
+  - "pip install flake8"
+  - "pip install -r requirements.txt"
+  - "pip install -r docs/requirements.txt"
+  - "pip install ltd-conveyor"
+script:
+  - flake8
+  - "make docs"
+  - "make travis-build"
+after_success:
+  - "ltd --log-level info upload --product \"squash\" --travis --dir docs/_build/html"
+  - "make travis-docker-deploy"
 env:
   global:
-    - LTD_SKIP_UPLOAD=true  # disable doc deploys in regular test matrix
-    # LTD Keeper / S3 deployment credentials and configs
-    - secure: "Y8mHYt0FglURI5/n84ZMt+yk3hFYH0hTdvN9s72DO9aPPoUwrO5+F5fobXHWU147HND4sUTaMwR26Q1/XI7XoIcYn12pb3iX+NYtl9gebkjbTpeytCCcJcvjQXuOEZFRZivNpWFG9xSN2iAJPt1Gc4Pnh7YelRbjjQ/BYDjgY1WjlKwHU7tFJdY804YONmKjp5TtBNttLEDcMexwXiFZiDNPUxhg4coELydaPigtlM0ysB0dV9pJye3yuJ/eHYSmrk5Q5zjif07opC5+XmlPZYmkpe4bGXS7Cnjj7sKHHNTjheLc5GOTykWPxYUcddh/yyu5WZptCTnXdfVS0ljYSbucokyjgXyksPl9aq85ZAGkaHuJ9swvlv/E90K6rf1eCTyFrVtQbDc+AlXNlZmf7H+RcYj1yttWI/o6rB/l5Uf3NJE0xknPU0uThF/0rHh2wfkZlZP4V1LqjvHWOS/ziYv5eRro26Ww/+iAGCFK25fKBLY6w9B7r8hFfJ1m0+4/hqmykJi+yDl5Yq43+d/VNXuHKT8NjvXDxEFuYE6jTBNYjHY2fnbOt1W/5F5zSaKvvitvsIwHRqm27dsJ9YxecIGAJKySmQ9l8m/wkl60zUgc3i96gD4Kr3ttygquXFzhOyu7CsJK21JIxPOpm21UEIKYKHHAyYt7WbvKpE4Pihw="
-    - secure: "FlqWpK+H/mKCDN+jzWt6MKyPJr0AtC5fNFUGSkmdOQmgAU3vRYsPji585YLSYjb7lFST68FmfpMFcWEgmEAgfIDNOZ49C9tLPAEImtCZ/u3pGtddAtD1x0s1jrw10hnNHNZkCtHnW9HBglBf9e23TCCkGo+zYU0NbuCB+sTJctoROlDOt2pvKYdMn5XGhpOjGTBToQj+CCJoeIQMEkmuuBtK7/jbtcQt3pfqsZQ/CxOz0b1YI+VeeYcQ9QhPJRjupL47gfnDyHWcDdp+zgwhE1NtjgdBpoYtXlS/SW2f+Eev8VXVRtD9NKb3espUJNkb3aLiOPQl5SwPhVxJ7PLtd48OTzPab9xBAfmUaSl/yx2hyyxwKY3dXVB6uEMk4Pmvz9erzPiVSCut4z+sXufB4e94/MXo+6rakj/8M3gErqPSEbZwoiD38wwz72nRC8IqqvNgQf05W2gEvpnhgDTWvNZ/OKgyuQp8a/6A5iUf4zbH52qGopuPyJJucb9vKgcOOB6FnxrSGrp9d2DXwca2tH2ZsJVDCE6SgxQn32L8gEKvVwaq/FzS6mpQrhCTPjc8LIfouGYSEe5MSXw3w7vMNOufhxly207GPC6CFpGzPHXKCDCw8RYbyMy5JH/522GIVZTtP0OQuDyejaEs7yqs/mYIot2L6TJDDTvfb6428ZY="
+    - LTD_SKIP_UPLOAD=false
+    - secure: Y8mHYt0FglURI5/n84ZMt+yk3hFYH0hTdvN9s72DO9aPPoUwrO5+F5fobXHWU147HND4sUTaMwR26Q1/XI7XoIcYn12pb3iX+NYtl9gebkjbTpeytCCcJcvjQXuOEZFRZivNpWFG9xSN2iAJPt1Gc4Pnh7YelRbjjQ/BYDjgY1WjlKwHU7tFJdY804YONmKjp5TtBNttLEDcMexwXiFZiDNPUxhg4coELydaPigtlM0ysB0dV9pJye3yuJ/eHYSmrk5Q5zjif07opC5+XmlPZYmkpe4bGXS7Cnjj7sKHHNTjheLc5GOTykWPxYUcddh/yyu5WZptCTnXdfVS0ljYSbucokyjgXyksPl9aq85ZAGkaHuJ9swvlv/E90K6rf1eCTyFrVtQbDc+AlXNlZmf7H+RcYj1yttWI/o6rB/l5Uf3NJE0xknPU0uThF/0rHh2wfkZlZP4V1LqjvHWOS/ziYv5eRro26Ww/+iAGCFK25fKBLY6w9B7r8hFfJ1m0+4/hqmykJi+yDl5Yq43+d/VNXuHKT8NjvXDxEFuYE6jTBNYjHY2fnbOt1W/5F5zSaKvvitvsIwHRqm27dsJ9YxecIGAJKySmQ9l8m/wkl60zUgc3i96gD4Kr3ttygquXFzhOyu7CsJK21JIxPOpm21UEIKYKHHAyYt7WbvKpE4Pihw=
+    - secure: FlqWpK+H/mKCDN+jzWt6MKyPJr0AtC5fNFUGSkmdOQmgAU3vRYsPji585YLSYjb7lFST68FmfpMFcWEgmEAgfIDNOZ49C9tLPAEImtCZ/u3pGtddAtD1x0s1jrw10hnNHNZkCtHnW9HBglBf9e23TCCkGo+zYU0NbuCB+sTJctoROlDOt2pvKYdMn5XGhpOjGTBToQj+CCJoeIQMEkmuuBtK7/jbtcQt3pfqsZQ/CxOz0b1YI+VeeYcQ9QhPJRjupL47gfnDyHWcDdp+zgwhE1NtjgdBpoYtXlS/SW2f+Eev8VXVRtD9NKb3espUJNkb3aLiOPQl5SwPhVxJ7PLtd48OTzPab9xBAfmUaSl/yx2hyyxwKY3dXVB6uEMk4Pmvz9erzPiVSCut4z+sXufB4e94/MXo+6rakj/8M3gErqPSEbZwoiD38wwz72nRC8IqqvNgQf05W2gEvpnhgDTWvNZ/OKgyuQp8a/6A5iUf4zbH52qGopuPyJJucb9vKgcOOB6FnxrSGrp9d2DXwca2tH2ZsJVDCE6SgxQn32L8gEKvVwaq/FzS6mpQrhCTPjc8LIfouGYSEe5MSXw3w7vMNOufhxly207GPC6CFpGzPHXKCDCw8RYbyMy5JH/522GIVZTtP0OQuDyejaEs7yqs/mYIot2L6TJDDTvfb6428ZY=
+    - secure: hBRjP6+gGjIGcipRnY94U4vfTpcroTzQdhNqKb79kPDb+f8NPuyyxkub2anM0RuvgAwTVCDe6iqBQWlMIDJzvsAIRvyj6N1okMyBW7KIzIMa2vAMfC0lQzhMw/b0Akxs+jyT87lw/3fPsfsjaWTuuS7XlbWu4eEuJQVOpIMSn/Cah3KRV779qKmM9/MAnbDxw0QV9jXDShjfN5Ox2YvkjGe3ejVihVl7ihATi21F9BAL90hwsIDnVCf8ocxFWwzJ08dpuyoePhBjZcjArZKRk2vYTKBuH8Xoz2Pa2Cp8mx47yG3/1Ccxej/0ppi6cttwhyMgJ0EZH4aKLJizz3uDIQcB2KyK0CeELyxb6oxhE3eAbEZBuXiCtbKRCuvKWGv5Ix4igr6pmMuvdRthCfiSvDXEJRys1zQPQNQs0CK/X+9RvJKO2RhuKPSa10ajCsX4rPXUFp8QlD50dmM2nNcGoTYSsIB3wZZXDE2owhCDDeQ0/H5rgDoiGXuk2x/viQ7sbAHZxn4WmKW7xhp5RWuikITsp+XqbzxMfHCHFJpe2QJusfUKKmaNlt9J8GZmZk0tl2fQ5vgJYt43vqtvgzO5JxDkbPWo/mCf3I888ExNrACiIRbEHXe4xX/UCW+ItYTERc4/ZI6rMPTT+b8qXF9jd2/k/cw4+lvrpYMSEgI2x08=

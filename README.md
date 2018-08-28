@@ -2,6 +2,9 @@
 
 `squash` is the web frontend to embed the bokeh apps and navigate through them. You can learn more about SQuaSH at [SQR-009](https://sqr-009.lsst.io).
 
+.. image:: https://travis-ci.org/lsst-sqre/squash.svg?branch=master
+    :target: https://travis-ci.org/lsst-sqre/squash
+
 ## Requirements
 
 The `squash` web frontend requires the [squash-restful-api](https://github.com/lsst-sqre/squash-restful-api) and [squash-bokeh](https://github.com/lsst-sqre/squash-bokeh) microservices, and the TLS certificats that are installed by the
@@ -30,20 +33,20 @@ their default values correspond to the production deployment.
 
 Use the `kubectl logs` command to view the logs of the `nginx` and `dash` containers:
 
-``` 
+```
 kubectl logs deployment/squash-api nginx
 kubectl logs deployment/squash-api dash
 ```
 
-Use the `kubectl exec` to run an interactive shell inside a container. Use tab completion or `kubectl get pods` command 
+Use the `kubectl exec` to run an interactive shell inside a container. Use tab completion or `kubectl get pods` command
 to find the pod's name:
 
 
-``` 
+```
 kubectl exec -it <squash pod> -c dash /bin/bash
 ```
 
-### Rolling out updates 
+### Rolling out updates
 
 Check the update history with:
 
@@ -68,10 +71,10 @@ kubectl describe deployments squash
 
 ### Scaling up the squash microservice
 
-Use the `kubectl get replicasets` command to view the current set of replicas, and then the `kubectl scale` command 
+Use the `kubectl get replicasets` command to view the current set of replicas, and then the `kubectl scale` command
 to scale up the `squash` deployment:
 
-``` 
+```
 kubectl scale deployments squash --replicas=3
 ```
 
@@ -83,13 +86,13 @@ kubectl apply -f kubernetes/deployment.yaml
 
 Check the deployment changes:
 
-``` 
+```
 kubectl describe deployments squash
 kubectl get pods
 kubectl get replicasets
 ```
 
-## Development workflow 
+## Development workflow
 
 You can install the dependencies for developing
 
@@ -104,7 +107,7 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-2. Run `squash` 
+2. Run `squash`
 
 ```
 export SQUASH_DASH_DEBUG=True
@@ -117,10 +120,8 @@ deployment, for example:
 ```
 export SQUASH_MONITOR_APP=code_changes
 export SQUASH_BOKEH_APPS="code_changes AMx PAx"
- 
+
 python manage.py runserver
 ```
 
-The `squash` will run at `http://localhost:8000`. 
-
-
+The `squash` will run at `http://localhost:8000`.
