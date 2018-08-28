@@ -2,8 +2,7 @@
 
 `squash` is the web frontend to embed the bokeh apps and navigate through them. You can learn more about SQuaSH at [SQR-009](https://sqr-009.lsst.io).
 
-.. image:: https://travis-ci.org/lsst-sqre/squash.svg?branch=master
-    :target: https://travis-ci.org/lsst-sqre/squash
+[![Build Status](https://travis-ci.org/lsst-sqre/squash.svg?branch=master)](https://travis-ci.org/lsst-sqre/squash)
 
 ## Requirements
 
