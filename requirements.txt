@@ -1,4 +1,4 @@
-Django==1.11.3
+django==1.11.22
 uWSGI==2.0.15
 requests<3.0.0
 bokeh==0.12.15
